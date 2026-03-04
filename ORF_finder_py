@@ -1,0 +1,42 @@
+# ORF Finder - Bioinformatics Project
+
+# Larger example DNA sequence
+dna_sequence = (
+    "AAATGCGTAAATGAAACCCGGGTTTTAGGGT"
+    "CCCATGTTTTTTGGGCCCTAAATGCCCCCCCTGA"
+)
+
+dna_sequence = dna_sequence.upper()
+
+stop_codons = ["TAA", "TAG", "TGA"]
+
+print("DNA Length:", len(dna_sequence))
+print("-------------------------")
+
+orf_count = 0
+
+for i in range(len(dna_sequence) - 2):
+
+    # Check for start codon
+    if dna_sequence[i:i+3] == "ATG":
+
+        # Scan in same reading frame
+        for j in range(i, len(dna_sequence) - 2, 3):
+
+            codon = dna_sequence[j:j+3]
+
+            if codon in stop_codons:
+
+                orf_count += 1
+
+                print("ORF", orf_count)
+                print("Start position:", i)
+                print("Stop position:", j+3)
+                print("Length:", j+3 - i)
+                print("Sequence:", dna_sequence[i:j+3])
+                print("-------------------------")
+
+                break
+
+if orf_count == 0:
+    print("No ORFs found.")
